@@ -8,9 +8,25 @@ import numpy as np
 # ---- PAGE CONFIG ----
 st.set_page_config(page_title="Brain Tumor Classifier", layout="wide")
 
+# ---- CUSTOM CSS FOR BACKGROUND AND FONTS ----
+st.markdown("""
+    <style>
+    body {
+        background-image: linear-gradient(to bottom right, #e0f7fa, #f1f8e9);
+        font-size: 18px;
+    }
+    .main h1 {
+        font-size: 48px !important;
+    }
+    .main p, .main label, .main div, .main button, .main span {
+        font-size: 18px !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # ---- HEADER ----
 st.markdown("""
-    <h1 style='text-align: center; color: #cad6e3;'>🧠 Brain Tumor Classifier</h1>
+    <h1 style='text-align: center; color: #2c3e50;'>🧠 Brain Tumor Classifier</h1>
     <p style='text-align: center;'>Upload a brain MRI image to classify tumor type using a trained DenseNet201 model.</p>
 """, unsafe_allow_html=True)
 
@@ -21,6 +37,9 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("Model: **DenseNet201**")
     st.markdown("Classes: `glioma`, `meningioma`, `no_tumor`, `pituitary`")
+    st.markdown("---")
+    st.write("📞 Contact: brainai@appsupport.com")
+    st.write("🔗 [GitHub Repo](https://github.com/SouMahdi/brain_tumor_classifier)")
 
 # ---- LOAD MODEL ----
 model = load_model("brain_tumor_classifier.h5")
