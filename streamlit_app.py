@@ -8,7 +8,8 @@ import os
 
 # Load model
 model = load_model("brain_tumor_classifier.h5")
-class_names = sorted(os.listdir("brain_tumor/Training"))  # Adjust if needed
+class_names = ['glioma', 'meningioma', 'no_tumor', 'pituitary']  # <-- Replace with your actual classes
+ # Adjust if needed
 
 # Set title
 st.title("🧠 Brain Tumor Classifier")
