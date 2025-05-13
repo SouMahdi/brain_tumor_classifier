@@ -8,6 +8,10 @@ import numpy as np
 # 🔧 Load your trained model
 model = load_model("brain_tumor_classifier.h5")
 
+with st.sidebar:
+    st.header("Settings")
+    st.radio("Select a model", ["DenseNet", "ResNet (coming soon)"])
+
 # 🧠 Set your tumor class names manually
 class_names = ['glioma', 'meningioma', 'no_tumor', 'pituitary']
 
