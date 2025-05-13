@@ -10,7 +10,7 @@ st.set_page_config(page_title="Brain Tumor Classifier", layout="wide")
 
 # ---- HEADER ----
 st.markdown("""
-    <h1 style='text-align: center; color: #2c3e50;'>🧠 Brain Tumor Classifier</h1>
+    <h1 style='text-align: center; color: #cad6e3;'>🧠 Brain Tumor Classifier</h1>
     <p style='text-align: center;'>Upload a brain MRI image to classify tumor type using a trained DenseNet201 model.</p>
 """, unsafe_allow_html=True)
 
