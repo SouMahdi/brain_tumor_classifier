@@ -5,40 +5,59 @@ from tensorflow.keras.applications.densenet import preprocess_input
 from PIL import Image
 import numpy as np
 
-# 🔧 Load your trained model
-model = load_model("brain_tumor_classifier.h5")
+# ---- PAGE CONFIG ----
+st.set_page_config(page_title="Brain Tumor Classifier", layout="wide")
 
+# ---- HEADER ----
+st.markdown("""
+    <h1 style='text-align: center; color: #2c3e50;'>🧠 Brain Tumor Classifier</h1>
+    <p style='text-align: center;'>Upload a brain MRI image to classify tumor type using a trained DenseNet201 model.</p>
+""", unsafe_allow_html=True)
+
+# ---- SIDEBAR ----
 with st.sidebar:
-    st.header("Settings")
-    st.radio("Select a model", ["DenseNet", "ResNet (coming soon)"])
+    st.header("⚙️ Options")
+    st.write("This demo uses a pre-trained DenseNet201 model.")
+    st.markdown("---")
+    st.markdown("Model: **DenseNet201**")
+    st.markdown("Classes: `glioma`, `meningioma`, `no_tumor`, `pituitary`")
 
-# 🧠 Set your tumor class names manually
+# ---- LOAD MODEL ----
+model = load_model("brain_tumor_classifier.h5")
 class_names = ['glioma', 'meningioma', 'no_tumor', 'pituitary']
 
-# 🎨 Title and description
-st.title("🧠 Brain Tumor Classifier")
-st.markdown("Upload a brain MRI image and classify it into one of four tumor types.")
-
-# 📂 File uploader
-uploaded_file = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png"])
+# ---- FILE UPLOADER ----
+st.markdown("### 📤 Upload an MRI Image")
+uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    # 🖼️ Show uploaded image
     image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Uploaded Image", use_column_width=True)
 
-    # 🔄 Preprocess image
-    image = image.resize((224, 224))
-    image_array = img_to_array(image)
-    image_array = np.expand_dims(image_array, axis=0)
-    image_array = preprocess_input(image_array)
+    col1, col2 = st.columns([1, 2])
 
-    # ▶️ Predict button
-    if st.button("Classify Tumor"):
-        prediction = model.predict(image_array)[0]
-        predicted_class = class_names[np.argmax(prediction)]
-        confidence = np.max(prediction)
+    with col1:
+        st.image(image, caption="🖼️ Uploaded Image", use_column_width=True)
 
-        # 🎯 Show prediction
-        st.markdown(f"### 🎯 Prediction: `{predicted_class}`")
-        st.markdown(f"**Confidence:** {confidence:.2f}")
+    with col2:
+        st.markdown("### 🔍 Classification Result")
+
+        # Preprocess image
+        resized = image.resize((224, 224))
+        image_array = img_to_array(resized)
+        image_array = np.expand_dims(image_array, axis=0)
+        image_array = preprocess_input(image_array)
+
+        if st.button("🚀 Classify Tumor"):
+            predictions = model.predict(image_array)[0]
+            predicted_class = class_names[np.argmax(predictions)]
+            confidence = np.max(predictions)
+
+            st.success(f"🧠 Predicted Tumor Type: `{predicted_class}`")
+            st.markdown(f"**Confidence:** `{confidence:.2f}`")
+
+            with st.expander("📊 Show Raw Prediction Scores"):
+                for i, score in enumerate(predictions):
+                    st.write(f"{class_names[i]}: {score:.2f}")
+
+else:
+    st.info("Please upload an image to get started.")
