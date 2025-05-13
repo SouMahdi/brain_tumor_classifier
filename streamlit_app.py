@@ -38,7 +38,7 @@ with st.sidebar:
     st.markdown("Model: **DenseNet201**")
     st.markdown("Classes: `glioma`, `meningioma`, `no_tumor`, `pituitary`")
     st.markdown("---")
-    st.write("📞 Contact: brainai@appsupport.com")
+    st.write("📞 Contact: gradproject2025@appsupport.com")
     st.write("🔗 [GitHub Repo](https://github.com/SouMahdi/brain_tumor_classifier)")
 
 # ---- LOAD MODEL ----
